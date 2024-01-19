@@ -23,11 +23,20 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    // console.log("Connection is ready");
     socket.on("send-message", (data) => {
         //sending message to all connected client windows
         socket.broadcast.emit("message-from-server", data);
     });
+
+    //checks to see if user is typing their message
+    socket.on("typing-started", () => {
+        socket.broadcast.emit("typing-started-from-server");
+    });
+
+    socket.on("typing-stopped", () => {
+        socket.broadcast.emit("typing-stopped-from-server");
+    });
+
     socket.on("disconnect", (socket) => {
         console.log("User left");
    });
