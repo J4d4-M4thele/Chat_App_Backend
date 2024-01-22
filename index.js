@@ -23,9 +23,11 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    socket.on("send-message", (data) => {
+    socket.on("send-message", ({message, roomId}) => {
         //sending message to all connected client windows
-        socket.broadcast.emit("message-from-server", data);
+        let skt = socket.broadcast;
+        skt = roomId ? skt.to(roomId) : skt;
+        skt.emit("message-from-server", {message});
     });
 
     //checks to see if user is typing their message
@@ -35,7 +37,7 @@ io.on("connection", (socket) => {
         skt.emit("typing-started-from-server");
     });
 
-    socket.on("typing-stopped", () => {
+    socket.on("typing-stopped", ({roomId}) => {
         let skt = socket.broadcast;
         skt = roomId ? skt.to(roomId) : skt;
         skt.emit("typing-stopped-from-server");
