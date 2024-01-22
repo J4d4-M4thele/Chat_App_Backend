@@ -29,12 +29,21 @@ io.on("connection", (socket) => {
     });
 
     //checks to see if user is typing their message
-    socket.on("typing-started", () => {
-        socket.broadcast.emit("typing-started-from-server");
+    socket.on("typing-started", ({roomId}) => {
+        let skt = socket.broadcast;
+        skt = roomId ? skt.to(roomId) : skt;
+        skt.emit("typing-started-from-server");
     });
 
     socket.on("typing-stopped", () => {
-        socket.broadcast.emit("typing-stopped-from-server");
+        let skt = socket.broadcast;
+        skt = roomId ? skt.to(roomId) : skt;
+        skt.emit("typing-stopped-from-server");
+    });
+
+    socket.on("join-room", ({roomId}) => {
+        console.log('Joining room');
+        socket.join(roomId);
     });
 
     socket.on("disconnect", (socket) => {
