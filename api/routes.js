@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get("/rooms", async (req, res) => {
     const rooms = await Room.find();
-    res.json({rooms});
+    res.json({ rooms });
 });
 
 export default router;
