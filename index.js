@@ -3,10 +3,13 @@ import http from "http";
 import { Server } from "socket.io";
 import path from "path";
 import { fileURLToPath } from "url";
-import sockets from "./socket/sockets.js"; 
+import sockets from "./socket/sockets.js";
+import mongoose from "mongoose"; 
 
 const app = express();
 const port = 4000;
+
+await mongoose.connect("mongodb+srv://JadaMathele:kPfIAdYSqOfix3ap@testcluster1.wxdgvkq.mongodb.net/");
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer,
