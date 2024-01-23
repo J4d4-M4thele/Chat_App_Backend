@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const roomsSchema = new Schema({
   name: String,
-  id: String,
+  roomId: String,
 });
 
 export default mongoose.model('Rooms', roomsSchema);
